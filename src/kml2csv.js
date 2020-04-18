@@ -1,6 +1,7 @@
 FS= require('fs');
+nop= function () {};
 
-kml= FS.readFileSync('cruces.kml','utf-8');
+kml= FS.readFileSync('../example_data/cruces.kml','utf-8');
 /* el formato es
   <Folder>
       <name>Linea Belgrano norte</name>
@@ -26,16 +27,47 @@ kml= FS.readFileSync('cruces.kml','utf-8');
 lines= kml.split(/\r?\n/);
 
 var Col2Idx= [];
-function out(d) {
+function outTsv(d) {
 	Object.keys(d).forEach(k => { if (Col2Idx.indexOf(k)<0) Col2Idx.push(k); });
 	var s= Col2Idx.map(k => d[k]).join("\t");
 	console.log(s);
 }
-function outColNames() {
+function outTsvEnd() {
 	var s= Col2Idx.join("\t");
 	console.log('#'+s);
 }
+out= outTsv; outEnd= outTsvEnd; outStart= nop;
 
+nodeId=1;
+function outOsmStart() {
+	console.log(
+`<?xml version="1.0" encoding="UTF-8"?>
+<osmChange version="0.6" generator="CGImap 0.8.1 (9148 thorn-01.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+`
+	);
+}
+function outOsm(d) {
+	console.log(`
+<create>
+<node id="${nodeId++}" lat="${d.lat}" lon="${d.lng}" version="1" timestamp="${new Date().toISOString()}" changeset="0">
+	<tag k="crossing:barrier" v="half"/>
+	<tag k="crossing:bell" v="yes"/>
+	<tag k="crossing:light" v="yes"/>
+	<tag k="railway" v="level_crossing"/>
+</node>
+</create>
+`);
+}
+function outOsmEnd() {
+	console.log(`
+</osmChange>
+`);
+}
+
+out= outOsm;
+outEnd= outOsmEnd; outStart= outOsmStart;
+
+outStart();
 var t0; var t1; var elProximoSonCoords= false;
 var d= {};
 folderName= null;
@@ -61,7 +93,7 @@ lines.forEach( l => {
 			else if (l.match(/<coordinates/)) { elProximoSonCoords= true; }
 			else if (elProximoSonCoords) {elProximoSonCoords= false;  
 				var p= l.trim().split(/,/); 
-				d.lat= p[0]; d.lng= p[1]; d.elevation= p[2];
+				d.lat= p[1]; d.lng= p[0]; d.elevation= p[2];
 			}
 			if ( (t0= l.match(/<Data name="([^"]+)/)) ) { t1= t0[1]; }
 			else if ( (t0= l.match(/<value>([^<]+)/))) { d[t1]= t0[1]; }
@@ -69,4 +101,4 @@ lines.forEach( l => {
 	}
 });
 
-outColNames();
+outEnd();
