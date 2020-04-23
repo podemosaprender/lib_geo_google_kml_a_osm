@@ -44,6 +44,7 @@ for f in [folders[0]]:
         nodeId += 1
         # Lista de tags en <ExtendedData>
         extendedData = list()
+        haveDescription = False
         # Getting info
         for k in exD.keys():
             if k == "Actualidad":
@@ -67,8 +68,14 @@ for f in [folders[0]]:
                     tag1 = f'<tag k="{tpCruce}" v="{tpCruceVal}"/>'
                     extendedData.append(tag1)
             else:
-                tag1 = f'<tag k="{k}" v="{exD[k]}"/>'
-                extendedData.append(tag1)
+                if not haveDescription:
+                    haveDescription = True
+                    description = f'{k} : {exD[k]}'
+                else:
+                    description = ' '.join([description, f'{k} : {exD[k]}]')
+        if haveDescription:
+            tag1 = f'<tag k="description" v="{description}"/>'
+            extendedData.append(tag1)
         # Finalmente agergo el bloque de datos a una lista y preparado para generar el archivo OSM
         allData.append({"placeName":placeName, "placeDescription":placeDescription, "node":node ,"extendedData":extendedData})
 
