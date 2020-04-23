@@ -1,0 +1,26 @@
+<osmChange version="0.6" generator="iD">
+<create>
+  <node id="-99" lon="-59.44866421556385" lat="-34.450778315051785" version="0"/>
+  <node id="-100" lon="-59.44858203510573" lat="-34.4508045920596" version="0"/>
+  <node id="-101" lon="-59.448600483780005" lat="-34.45083640105799" version="0"/>
+  <node id="-102" lon="-59.448556877822625" lat="-34.450851614052944" version="0"/>
+  <node id="-103" lon="-59.44858706656235" lat="-34.45090416801418" version="0"/>
+  <node id="-104" lon="-59.44870614436902" lat="-34.450865444045945" version="0"/>
+  <way id="-10" version="0">
+      <nd ref="-99"/>
+      <nd ref="-100"/>
+      <nd ref="-101"/>
+      <nd ref="-102"/>
+      <nd ref="-103"/>
+      <nd ref="-104"/>
+      <nd ref="-99"/>
+      <tag k="building" v="house"/>
+      <tag k="name" v="Nico"/>
+      <tag k="building:levels" v="2"/>
+      <tag k="building:material" v="brick"/>
+      <tag k="description" v="Casa de familia"/>
+  </way>
+</create>
+<modify/>
+<delete if-unused="true"/>
+</osmChange>
