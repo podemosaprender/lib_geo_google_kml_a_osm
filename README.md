@@ -25,7 +25,25 @@ Ejemplo de algunos tags en el KML:
     </Folder>
     </document>
     
- Este formato NO es soportado por OpenStreet Maps. Por ello nos propusimos migrar la informacion contenida en el KML a un archivo compatible con OSM.
+ >Este formato NO es soportado por OpenStreet Maps. Por ello nos propusimos migrar la informacion contenida en el KML a un archivo compatible.
  
+ El archivo resultante de la trasnformacion (KML -> OSM ), debe tener una pinta parecida a lo siguiente:
  
+    <osmChange version="0.6" generator="iD">
+    <create>
+        <node id="-99" lon="-59.44866421556385" lat="-34.450778315051785" version="0"/>
+        <way id="-10" version="0">
+            <nd ref="-99"/>
+            <tag k="building" v="house"/>
+            <tag k="name" v="Este es el nombre"/>
+            <tag k="building:levels" v="2"/>
+            <tag k="building:material" v="brick"/>
+            <tag k="description" v="Esta es una descripcion del feature"/>
+        </way>
+    </create>
+    <modify/>
+    <delete if-unused="true"/>
+    </osmChange>
+ 
+>  This is the changeset to modify that single node.
  
