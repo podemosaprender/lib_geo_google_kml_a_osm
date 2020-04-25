@@ -1,12 +1,11 @@
 import xml.etree.ElementTree as ET 
 
+# Incluir la implementacion de la libreria de parseo xml en lugar de Beautiful Soup
 with open("data/cruces.kml", "r") as kFile:
     soup = BeautifulSoup(kFile.read(), "xml")
     kFile.close()
 
 # cooking kml ---->
-toDay = f'{date.today()}'
-nodeId = 1
 
 # folder seria como categoria 1
 folders = soup.find_all("Folder")
@@ -59,3 +58,6 @@ for f in [folders[0]]:
                 extendedData.append(tag1)
         # Finalmente agergo el bloque de datos a una lista y preparado para generar el archivo OSM
         allData.append({"placeName":placeName, "placeDescription":placeDescription, "node":node ,"extendedData":extendedData})
+        
+  # El proximo paso es cargar la informacion a una base de datos
+
