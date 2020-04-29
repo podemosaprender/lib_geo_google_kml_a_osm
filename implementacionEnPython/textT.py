@@ -1,6 +1,6 @@
 # La funcion tiene como objetivo limpiar algunas cuestiones del texto.
-# pero tambien genera el formato de nombre "Camello"
-# si hubiese una convencion para los nombre, de tablas, variables, etc. Aqui se puede incluir el formato
+# Tambien genera el formato de tipeo a tipo "Camello"
+# Si hubiese una convencion para los nombre, de tablas, variables, etc. Aqui se puede incluir el formato
 # Otro tema importante es el enconding del texto, aqui para generalizar esta en utf-8 pero sin acentos y si la virgulilla de la ñ
 
 def transform(word=None, upFLetter=None, isCamel=None):
