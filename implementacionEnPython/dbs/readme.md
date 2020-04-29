@@ -1,5 +1,6 @@
 
 Baso de datos creada con sqlite3
+
 Esquema:
 
     CREATE TABLE kmlData (
