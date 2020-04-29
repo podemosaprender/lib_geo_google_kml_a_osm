@@ -1,5 +1,6 @@
 import sqlite3 as sql 
 
+# Funcion de cracion
 def createDb(dbName=None):
     if dbName == None:
         dbName = f'dbs/data.sqlite'
