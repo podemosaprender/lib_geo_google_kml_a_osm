@@ -7,8 +7,7 @@ with open("data/cruces.kml", "r") as kFile:
     xmlR = ET.fromstring(kFile.read())
     kFile.close()
 
-# El kml es un xlmns, contiene prefijos que se referencian en la uri siguiente.
-# Este es el prefijo'{http://www.opengis.net/kml/2.2}'
+# Este es el prefijo del xlmns '{http://www.opengis.net/kml/2.2}'
 prf = {'prefix':'http://www.opengis.net/kml/2.2'}
 
 # Creacion y conexion a la base de datos
