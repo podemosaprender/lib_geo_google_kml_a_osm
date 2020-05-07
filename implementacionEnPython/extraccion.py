@@ -1,4 +1,4 @@
-import xml.etree.ElementTree as ET 
+import xml.etree.ElementTree as ET
 import sqlite3 as sql
 import textT
 import crud
