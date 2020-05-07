@@ -5,11 +5,11 @@ conn = sql.connect('dbs/data.sqlite')
 cur = conn.cursor()
 
 tipoCruce = {
-    "Paso peatonal":{"railway":"crossing"},
-    "Paso a nivel":{"railway":"level_crossing"},
-    "Paso sobre nivel":{"bridge":"structure", "bridge:name":"name"},
-    "Viaducto":{"tunnel":"yes", "tunnel:name":"name"},
-    "Paso bajo nivel":{"tunnel":"yes", "tunnel:name":"name"}
+    "Paso peatonal": {"railway": "crossing"},
+    "Paso a nivel": {"railway": "level_crossing"},
+    "Paso sobre nivel": {"bridge": "structure", "bridge:name": "name"},
+    "Viaducto": {"tunnel": "yes", "tunnel:name": "name"},
+    "Paso bajo nivel": {"tunnel": "yes", "tunnel:name": "name"}
 }
 
 # Diccionario de tablas y datos para mapear
@@ -17,10 +17,6 @@ tipoCruce = {
 # Dato en el tag Data me va a decir en tabla inserto el valor
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
 tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
-
-# folder seria como categoria 1
-folders = soup.find_all("Folder") # <----  REEMPLAZAR
-
 
 data = dict()
 folderName = f.find("name").text.strip() # <----  REEMPLAZAR :: foreing key folder_id FROM Folder
