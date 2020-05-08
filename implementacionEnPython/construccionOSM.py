@@ -33,7 +33,9 @@ tipoCruce = {
 # Esto viene de aca <ExtendedData><Data name="Línea"> <value>Belgrano Norte</value></ExtendedData>
 # Dato en el tag Data me va a decir en tabla inserto el valor
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
+
 tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
+
 reverseTablesIdsDict = funciones.reverseDict(tablesIdsDict)
 
 '''
@@ -43,10 +45,32 @@ ON a.linea_id = b.id and a.ramal_id = c.id and a.servicio_id = d.id and a.actual
 '''
 allData = list()
 data = dict()
+query = list()
+query.appen('SELECT')
 for c in columns:
     if not c in tablesIdsDict:
         # falta crear el node, que antes no lo habia guardado en la base de datos
-        placeName =
+        query.append(c)
+    else:
+        query.appen(f'{c}.name')
+
+query.appen('FROM kmlData')
+
+for c in columns:
+    if c in tablesIdsDict:
+        query.appen(f'JOIN {tablesIdsDict[c]}')
+query.appen('ON')
+
+for c in columns:
+    if c in tablesIdsDict:
+        query.appen(f'kmlData.{c} = {tablesIdsDict[c]}.id')
+
+print(query)
+
+
+
+# <----- HASTA AQUI ACTUALIZADO ----->
+
 
 
 data = dict()
