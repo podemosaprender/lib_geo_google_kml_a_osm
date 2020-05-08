@@ -12,6 +12,7 @@ cur = conn.cursor()
 
 # Get Main columns
 mc = cur.execute("PRAGMA TABLE_INFO(kmlData)")
+mc = mc.fetchall()
 if len(mc):
     mc = mc.fetchall()
     columns = list()
