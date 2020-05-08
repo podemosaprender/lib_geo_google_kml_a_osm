@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import sqlite3 as sql
-import textT
+import funciones
 import crud
 
 with open("data/cruces.kml", "r") as kFile:
@@ -54,15 +54,15 @@ for f in folders:
                 # print('<---- BLOCK FOR DEBUGGING ---->')
                 # print('<---- END BLOCK FOR DEBUGGING ---->')
                 # <---- BLOCK FOR DEBUGGING ---->
-                if textT.transform(atributo, True) in tables:
-                    atributo = textT.transform(atributo, True)
+                if funciones.transform(atributo, True) in tables:
+                    atributo = funciones.transform(atributo, True)
                     # print(f'Atributo de tabla {atributo}') # <---- BLOCK FOR DEBUGGING ---->
                     cur.execute(f'INSERT OR IGNORE INTO {atributo} (name) VALUES (?)', (valor,))
                     cur.execute(f'SELECT id FROM {atributo} WHERE name = ?', (valor,))
                     atId = cur.fetchone()[0]
                     exDTablesAtrId.update({atributo:atId})
                     continue
-                atributo = textT.transform(atributo)
+                atributo = funciones.transform(atributo)
                 # print(f'Atributo de campo {atributo}') # <---- BLOCK FOR DEBUGGING ---->
                 exD.update({atributo:valor})
         lon, lat, z = p.find("prefix:Point", prf)[0].text.strip().split(",")

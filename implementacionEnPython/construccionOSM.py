@@ -1,4 +1,5 @@
 import sqlite3 as sql
+import funciones
 
 
 # CONFIG DBS DIRECTORY AND NAME
@@ -15,7 +16,7 @@ if len(mc):
     mc = mc.fetchall()
     columns = list()
     for d in mc:
-       columns.append(d[1])
+       columns.append((d[0], d[1]))
 else:
     print(f'No se econtraron columnas disponibles en la base de datos')
     print(f'Directorio BD {dbDirectory} :: Nombre de la base {dbName}')
@@ -33,6 +34,20 @@ tipoCruce = {
 # Dato en el tag Data me va a decir en tabla inserto el valor
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
 tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
+reverseTablesIdsDict = funciones.reverseDict(tablesIdsDict)
+
+'''
+SELECT * FROM kmlData as a
+JOIN Linea as b JOIN Ramal as c JOIN Servicio as d JOIN Actualidad as e JOIN TipoObra as f
+ON a.linea_id = b.id and a.ramal_id = c.id and a.servicio_id = d.id and a.actualidad_id = e.id and a.obra_id = f.id
+'''
+allData = list()
+data = dict()
+for c in columns:
+    if not c in tablesIdsDict:
+        # falta crear el node, que antes no lo habia guardado en la base de datos
+        placeName =
+
 
 data = dict()
 folderName = f.find("name").text.strip() # <----  REEMPLAZAR :: foreing key folder_id FROM Folder
@@ -92,4 +107,6 @@ with open("data/migrationFromDb.txt", "w") as osmFile:
             osmFile.write(f'\t\t{t}\n')
         osmFile.write(f'\t\t</node>\n\t</create>\n')
     osmFile.write(f'</osm>')
+
+
 
