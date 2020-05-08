@@ -49,19 +49,19 @@ query = list()
 query.append('SELECT')
 
 for c in columns:
-    if not c in tablesIdsDict:
+    if not c[1] in tablesIdsDict:
         # falta crear el node, que antes no lo habia guardado en la base de datos
-        query.append(c)
+        query.append(c[1])
     else:
-        query.appen(f'{c}.name')
+        query.appen(f'{c[1]}.name')
 
-query.appen('FROM kmlData')
+query.append('FROM kmlData')
 
 for c in columns:
     if c in tablesIdsDict:
-        query.appen(f'JOIN {tablesIdsDict[c]}')
+        query.append(f'JOIN {tablesIdsDict[c]}')
 
-query.appen('ON')
+query.append('ON')
 
 for c in columns:
     if c in tablesIdsDict:
