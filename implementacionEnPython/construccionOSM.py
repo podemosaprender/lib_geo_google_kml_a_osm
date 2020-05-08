@@ -1,5 +1,4 @@
 import sqlite3 as sql
-import funciones
 
 
 # CONFIG DBS DIRECTORY AND NAME
@@ -11,10 +10,11 @@ conn = sql.connect(db)
 cur = conn.cursor()
 
 # Get Main columns
+
 mc = cur.execute("PRAGMA TABLE_INFO(kmlData)")
 mc = mc.fetchall()
+
 if len(mc):
-    mc = mc.fetchall()
     columns = list()
     for d in mc:
        columns.append((d[0], d[1]))
@@ -36,7 +36,7 @@ tipoCruce = {
 
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
 tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
-reverseTablesIdsDict = funciones.reverseDict(tablesIdsDict)
+#reverseTablesIdsDict = funciones.reverseDict(tablesIdsDict)
 
 '''
 SELECT * FROM kmlData as a
