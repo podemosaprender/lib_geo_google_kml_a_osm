@@ -5,19 +5,13 @@ import funciones
 # CONFIG DBS DIRECTORY AND NAME
 
 dbDirectory = 'dbs/'
-
 dbName = 'data'
-
 db = f'{dbDirectory}{dbName}.sqlite'
-
-conn = sql.connect(dbs)
-
+conn = sql.connect(db)
 cur = conn.cursor()
 
 # Get Main columns
-
-mc = cur.execute("PRAGMA TABLE_INFO(kmlData")
-
+mc = cur.execute("PRAGMA TABLE_INFO(kmlData)")
 if len(mc):
     mc = mc.fetchall()
     columns = list()
@@ -40,9 +34,7 @@ tipoCruce = {
 # Dato en el tag Data me va a decir en tabla inserto el valor
 
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
-
 tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
-
 reverseTablesIdsDict = funciones.reverseDict(tablesIdsDict)
 
 '''
