@@ -1,8 +1,24 @@
 import sqlite3 as sql
 
 
-conn = sql.connect('dbs/data.sqlite')
+# CONFIG DBS DIRECTORY AND NAME
+dbDirectory = 'dbs/'
+dbName = 'data'
+db = f'{dbDirectory}{dbName}.sqlite'
+
+conn = sql.connect(dbs)
 cur = conn.cursor()
+
+# Get Main columns
+mc = cur.execute("PRAGMA TABLE_INFO(kmlData")
+if len(mc):
+    mc = mc.fetchall()
+    columns = list()
+    for d in mc:
+       columns.append(d[1])
+else:
+    print(f'No se econtraron columnas disponibles en la base de datos')
+    print(f'Directorio BD {dbDirectory} :: Nombre de la base {dbName}')
 
 tipoCruce = {
     "Paso peatonal": {"railway": "crossing"},
