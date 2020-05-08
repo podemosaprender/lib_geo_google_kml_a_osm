@@ -1,5 +1,5 @@
 import sqlite3 as sql
-import funciones
+
 
 # CONFIG DBS DIRECTORY AND NAME
 
@@ -59,13 +59,13 @@ query.append('FROM kmlData')
 
 for c in columns:
     if c[1] in tablesIdsDict:
-        query.append(f'JOIN {tablesIdsDict[c]}')
+        query.append(f'JOIN {tablesIdsDict[c[1]]}')
 
 query.append('ON')
 
 for c in columns:
     if c[1] in tablesIdsDict:
-        query.append(f'kmlData.{c} = {tablesIdsDict[c]}.id')
+        query.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
 
 print(query)
 
