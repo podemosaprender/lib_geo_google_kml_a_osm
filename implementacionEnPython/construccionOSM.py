@@ -1,6 +1,5 @@
 import sqlite3 as sql
 
-
 # CONFIG DBS DIRECTORY AND NAME
 
 dbDirectory = 'dbs/'
@@ -17,7 +16,7 @@ mc = mc.fetchall()
 if len(mc):
     columns = list()
     for d in mc:
-       columns.append((d[0], d[1]))
+        columns.append((d[0], d[1]))
 else:
     print(f'No se econtraron columnas disponibles en la base de datos')
     print(f'Directorio BD {dbDirectory} :: Nombre de la base {dbName}')
@@ -45,29 +44,52 @@ ON a.linea_id = b.id and a.ramal_id = c.id and a.servicio_id = d.id and a.actual
 '''
 allData = list()
 data = dict()
-query = list()
-query.append('SELECT')
+queryElementsAcumulator = list()
+queryFinal = [0, 0, 0, 0, 0, 0]
+queryFinal[0] = 'SELECT'
 
 for c in columns:
     if not c[1] in tablesIdsDict:
         # falta crear el node, que antes no lo habia guardado en la base de datos
-        query.append(c[1])
+        queryElementsAcumulator.append(f'kmlData.{c[1]}')
     else:
-        query.appen(f'{c[1]}.name')
+        queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name')
 
-query.append('FROM kmlData')
+queryVar = ' , '.join([x for x in queryElementsAcumulator])
+print(f'queryElementsAcumulator, primera parte \n{queryVar}')
+queryElementsAcumulator.clear()
+
+queryFinal[1] = f'{queryVar}'
+queryFinal[2] = 'FROM kmlData'
 
 for c in columns:
     if c[1] in tablesIdsDict:
-        query.append(f'JOIN {tablesIdsDict[c[1]]}')
+        queryElementsAcumulator.append(f'JOIN {tablesIdsDict[c[1]]}')
 
-query.append('ON')
+# Entre los JOINS de la query Sql no van comas, la concatenacion en el join (python), es por espacio en blanco
+queryVar = ' '.join([x for x in queryElementsAcumulator])
+print(f'queryElementsAcumulator, Segunda parte \n{queryVar}')
+queryElementsAcumulator.clear()
+
+queryFinal[3] = f'{queryVar}'
+queryFinal[4] = 'ON'
 
 for c in columns:
     if c[1] in tablesIdsDict:
-        query.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
+        queryElementsAcumulator.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
 
-print(query)
+# Se agrega el keyWord AND como separador en el join
+queryVar = ' AND '.join([x for x in queryElementsAcumulator])
+print(f'queryElementsAcumulator, Segunda parte \n{queryVar}')
+queryElementsAcumulator.clear()
+
+queryFinal[5] = f'{queryVar}'
+queryFinal = ' '.join([x for x in queryFinal]).strip()
+
+cur.execute(queryFinal)
+result = cur.fetchone()[0]
+
+print(f'Resultado de la queryElementsAcumulator \n{result}')
 
 
 
