@@ -87,7 +87,7 @@ queryFinal[5] = f'{queryVar}'
 queryFinal = ' '.join([x for x in queryFinal]).strip()
 
 cur.execute(queryFinal)
-result = cur.fetchone()[0]
+result = cur.fetchone()
 
 print(f'Resultado de la queryElementsAcumulator \n{result}')
 
