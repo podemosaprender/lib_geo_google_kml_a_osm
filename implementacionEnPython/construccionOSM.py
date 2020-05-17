@@ -91,11 +91,7 @@ result = cur.fetchone()[0]
 
 print(f'Resultado de la queryElementsAcumulator \n{result}')
 
-
-
 # <----- HASTA AQUI ACTUALIZADO ----->
-
-
 
 data = dict()
 folderName = f.find("name").text.strip() # <----  REEMPLAZAR :: foreing key folder_id FROM Folder
