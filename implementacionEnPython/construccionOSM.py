@@ -53,7 +53,7 @@ for c in columns:
         # falta crear el node, que antes no lo habia guardado en la base de datos
         queryElementsAcumulator.append(f'kmlData.{c[1]}')
     else:
-        queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name')
+        queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name AS {tablesIdsDict[c[1]]}')
 
 queryVar = ' , '.join([x for x in queryElementsAcumulator])
 print(f'queryElementsAcumulator, primera parte \n{queryVar}')
@@ -93,7 +93,7 @@ print(f'Resultado de la queryElementsAcumulator \n{result}')
 
 # <----- HASTA AQUI ACTUALIZADO ----->
 
-data = dict()
+ data = dict()
 folderName = f.find("name").text.strip() # <----  REEMPLAZAR :: foreing key folder_id FROM Folder
 placeList = f.find_all("Placemark")
 for p in placeList:
