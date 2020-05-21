@@ -10,12 +10,13 @@ cur = conn.cursor()
 
 # Get Main columns
 
-mc = cur.execute("PRAGMA TABLE_INFO(kmlData)")
-mc = mc.fetchall()
+kmlDataTableInfo = cur.execute("PRAGMA TABLE_INFO(kmlData)")
+kmlDataTableInfo = kmlDataTableInfo.fetchall()
 
-if len(mc):
+
+if len(kmlDataTableInfo):
     columns = list()
-    for d in mc:
+    for d in kmlDataTableInfo:
         columns.append((d[0], d[1]))
 else:
     print(f'No se econtraron columnas disponibles en la base de datos')
@@ -34,14 +35,11 @@ tipoCruce = {
 # Dato en el tag Data me va a decir en tabla inserto el valor
 
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
-tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
-#reverseTablesIdsDict = funciones.reverseDict(tablesIdsDict)
+# tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
+# Voy a usar solo algunas columnas
+tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "actualidad_id":"Actualidad"}
+kmlDataColumnsSelection = ['placeName', 'lat', 'lon', ]
 
-'''
-SELECT * FROM kmlData as a
-JOIN Linea as b JOIN Ramal as c JOIN Servicio as d JOIN Actualidad as e JOIN TipoObra as f
-ON a.linea_id = b.id and a.ramal_id = c.id and a.servicio_id = d.id and a.actualidad_id = e.id and a.obra_id = f.id
-'''
 allData = list()
 data = dict()
 queryElementsAcumulator = list()
@@ -49,11 +47,8 @@ queryFinal = [0, 0, 0, 0, 0, 0]
 queryFinal[0] = 'SELECT'
 
 for c in columns:
-    if not c[1] in tablesIdsDict:
-        # falta crear el node, que antes no lo habia guardado en la base de datos
-        queryElementsAcumulator.append(f'kmlData.{c[1]}')
-    else:
-        queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name AS {tablesIdsDict[c[1]]}')
+    if c[1] in tablesIdsDict: queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name AS {tablesIdsDict[c[1]]}')
+    if c[1] in kmlDataColumnsSelection: queryElementsAcumulator.append(f'kmlData.{c[1]}')
 
 queryVar = ' , '.join([x for x in queryElementsAcumulator])
 print(f'queryElementsAcumulator, primera parte \n{queryVar}')
@@ -63,8 +58,7 @@ queryFinal[1] = f'{queryVar}'
 queryFinal[2] = 'FROM kmlData'
 
 for c in columns:
-    if c[1] in tablesIdsDict:
-        queryElementsAcumulator.append(f'JOIN {tablesIdsDict[c[1]]}')
+    if c[1] in tablesIdsDict: queryElementsAcumulator.append(f'JOIN {tablesIdsDict[c[1]]}')
 
 # Entre los JOINS de la query Sql no van comas, la concatenacion en el join (python), es por espacio en blanco
 queryVar = ' '.join([x for x in queryElementsAcumulator])
@@ -75,8 +69,7 @@ queryFinal[3] = f'{queryVar}'
 queryFinal[4] = 'ON'
 
 for c in columns:
-    if c[1] in tablesIdsDict:
-        queryElementsAcumulator.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
+    if c[1] in tablesIdsDict: queryElementsAcumulator.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
 
 # Se agrega el keyWord AND como separador en el join
 queryVar = ' AND '.join([x for x in queryElementsAcumulator])
@@ -87,31 +80,15 @@ queryFinal[5] = f'{queryVar}'
 queryFinal = ' '.join([x for x in queryFinal]).strip()
 
 cur.execute(queryFinal)
-result = cur.fetchone()
+results = cur.fetchall()
 
-print(f'Resultado de la queryElementsAcumulator \n{result}')
-
-# <----- HASTA AQUI ACTUALIZADO ----->
-
- data = dict()
-folderName = f.find("name").text.strip() # <----  REEMPLAZAR :: foreing key folder_id FROM Folder
-placeList = f.find_all("Placemark")
-for p in placeList:
-    placeName = p.find("name").text.strip() # <----  REEMPLAZAR :: CAMPO placeName FROM kmlData
-    placeDescription = p.find("description").text.strip() # <----  REEMPLAZAR :: CAMPO placeDescription FROM kmlData
-    extendedData = p.find("ExtendedData").find_all("Data")
-    if len(extendedData):
-        exD = dict()
-        for d in extendedData:
-            dataName = d["name"]
-            dataValue = d.value.text.strip()
-            exD.update({dataName:dataValue})
-    lon, lat, z = p.find("Point").find("coordinates").text.strip().split(",")
-    #print(f'Folder Name : {folderName} \nPlace Name : {placeName} \nlat : {lat} , lon : {lon}')
+data = dict()
+nodeId = 1
+for row in results:
+    placeName = row[0]
+    lon, lat = row[1], row[2]
     node = f'<node id="{nodeId}" lat="{lat}" lon="{lon}" version="1" timestamp="{toDay}" changeset="0">'
     nodeId += 1
-    # Lista de tags en <ExtendedData>
-    extendedData = list()
     # Getting info
     for k in exD.keys():
         if k == "Actualidad":
