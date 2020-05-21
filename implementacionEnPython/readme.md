@@ -10,3 +10,8 @@ En primer lugar se puede encontrar una implementacion usando BeautifulSoup, en e
 
 En segundo lugar y ya un poco mas desarrollado podes encontrar varios archivos donde comenze con el uso de otroa libreria para parsear el KML, xml.etreeElementTree. Tambien se implemento la base de datos, por ahora solo en la extraccion de la info.
 
+Secuencia de ejecucion
+- crud.py para crear la base de datos desde cero
+- extraccion para sacar e insertar los datos en la base de datos
+- construccionOSM para tomar los datos necesarios de la base y escribir el archivo final
+
