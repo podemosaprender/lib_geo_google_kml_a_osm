@@ -81,7 +81,7 @@ queryFinal = ' '.join([x for x in queryFinal]).strip()
 
 cur.execute(queryFinal)
 results = cur.fetchall()
-
+toDay = 'toBeDefine'
 data = dict()
 nodeId = 1
 for row in results:
@@ -90,40 +90,37 @@ for row in results:
     node = f'<node id="{nodeId}" lat="{lat}" lon="{lon}" version="1" timestamp="{toDay}" changeset="0">'
     nodeId += 1
     # Getting info
-    for k in exD.keys():
-        if k == "Actualidad":
-            # Voy a setear un valor por default de exD[k] por que hay algunos errores de tipeo que generar error de
-            # claves cuando buscan el dato en el diccionario "tipo de cruce"
-            if not (exD[k] in list(tipoCruce.keys())):
-                exD.update({"Actualidad":"Paso a nivel"})
-                # Agrego este tag para hacer seguimientos de posibles errores o inconsistencia en los datos
-                extendedData.append(f'<tag k="valorPorDefault" v="yes"/>')
-            if len(list(tipoCruce[exD[k]].keys())) > 1:
-                k0 = list(tipoCruce[exD[k]].keys())[0]
-                k1 = list(tipoCruce[exD[k]].keys())[1]
-                tpCruce, tpCruceVal = k0, tipoCruce[exD[k]][k0]
-                cruceName, cruceNameVal = k1, exD["Nom. Alt."]
-                tag1 = f'<tag k="{tpCruce}" v="{tpCruceVal}"/'
-                tag2 = f'<tag k="{cruceName}" v="{cruceNameVal}"/>'
-                extendedData.extend([tag1, tag2])
-            else:
-                k0 = list(tipoCruce[exD[k]].keys())[0]
-                tpCruce, tpCruceVal = k0, tipoCruce[exD[k]][k0]
-                tag1 = f'<tag k="{tpCruce}" v="{tpCruceVal}"/>'
-                extendedData.append(tag1)
-        else:
-            tag1 = f'<tag k="{k}" v="{exD[k]}"/>'
-            extendedData.append(tag1)
+    # Voy a setear un valor por default de exD[k] por que hay algunos errores de tipeo que generar error de
+    # claves cuando buscan el dato en el diccionario "tipo de cruce"
+    extendedData = list()
+    tipoCruceActual = row[5]
+    if not (tipoCruceActual in list(tipoCruce.keys())):
+        tipoCruceActual= "Paso a nivel"
+        # Agrego este tag para hacer seguimientos de posibles errores o inconsistencia en los datos
+        extendedData.append(f'<tag k="valorPorDefault" v="yes"/>')
+    if len(list(tipoCruce[tipoCruceActual].keys())) > 1:
+        k0 = list(tipoCruce[tipoCruceActual].keys())[0]
+        k1 = list(tipoCruce[tipoCruceActual].keys())[1]
+        tpCruce, tpCruceVal = k0, tipoCruce[tipoCruceActual][k0]
+        cruceName, cruceNameVal = k1, f'{placeName}-{row[3]}-{row[4]}'
+        tag1 = f'<tag k="{tpCruce}" v="{tpCruceVal}"/'
+        tag2 = f'<tag k="{cruceName}" v="{cruceNameVal}"/>'
+        extendedData.extend([tag1, tag2])
+    else:
+        k0 = list(tipoCruce[tipoCruceActual].keys())[0]
+        tpCruce, tpCruceVal = k0, tipoCruce[tipoCruceActual][k0]
+        tag1 = f'<tag k="{tpCruce}" v="{tpCruceVal}"/>'
+        extendedData.append(tag1)
     # Finalmente agergo el bloque de datos a una lista y preparado para generar el archivo OSM
-    allData.append({"placeName":placeName, "placeDescription":placeDescription, "node":node ,"extendedData":extendedData})
+    allData.append({"placeName":placeName, "node":node ,"extendedData":extendedData})
 
-
+#<----- HASTA AQUI ACTUALIZADO ----->
 
 # ----> OSM out
 with open("data/migrationFromDb.txt", "w") as osmFile:
     osmFile.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<osmChange version="0.6" generator="CGImap 0.8.1 (9148 thorn-01.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">\n')
     for d in allData:
-        osmFile.write(f'\t<create>\n\t\t{d["node"]}')
+        osmFile.write(f'\t<create>\n\t\t{d["node"]}\n')
         for t in d["extendedData"]:
             osmFile.write(f'\t\t{t}\n')
         osmFile.write(f'\t\t</node>\n\t</create>\n')
