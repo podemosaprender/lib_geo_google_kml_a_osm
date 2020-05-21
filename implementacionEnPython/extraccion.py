@@ -87,7 +87,7 @@ for f in folders:
                 anoEstimadoDeObra,
                 ultimaActualizacion
             )
-            VALUES (?, ?, ?, ? ,? ,? ,? ,? ,?, ?, ?, ?, ?, ?, ?, ?) ''', 
+            VALUES (?, ?, ?, ? ,? ,? ,? ,? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ''',
             (
                 folder_id,
                 placeName,

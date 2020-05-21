@@ -22,6 +22,8 @@ def createDb(dbName=None):
         folder_id INTEGER,
         placeName TEXT,
         placeDescription TEXT,
+        lat REAL,
+        lon REAL,
         line_id INTEGER,
         ramal_id INTEGER,
         servicio_id INTEGER,
