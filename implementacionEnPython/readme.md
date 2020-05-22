@@ -13,7 +13,7 @@ Secuencia de ejecucion
 - extraccion para sacar e insertar los datos en la base de datos
 - construccionOSM para tomar los datos necesarios de la base y escribir el archivo final
 
-####extraccionDeDatos.py
+#### extraccionDeDatos.py
 En este archivo econtramos lo siguiente:
 - Se importa lee y parsea el KML
 - Se crea y conecta a la base de datos
@@ -21,10 +21,10 @@ En este archivo econtramos lo siguiente:
 
 Los registros se insertan en la base de datos uno por uno inmediatamente despues de extraer el dato
 
-####crud.py
+#### crud.py
 Este archivo contiene el esquema para crear la base de datos
 
-###funciones.py
+### funciones.py
 En este archivo se encuentran dos funciones.
 
 #### 1 Funcion de comprobacion y transformacion de texto : transform(word=None, upFLetter=None, isCamel=None)
