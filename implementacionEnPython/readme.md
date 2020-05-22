@@ -1,14 +1,12 @@
-# Aqui podras encontrar toda la implementacion en Pyhton
+## Aqui podras encontrar toda la implementacion en Pyhton
 
-## Tanto el esquema de la base de datos como las queries apenas funcionan y aun no me he preocupado por la eficienda de la BD.
+### El esquema de la base de datos, las queries y la construcciones de los archivos finales estan en fase Beta. Ninguno de los elementos anteriores es definitivo, todo es alterable.
 
 El objetivo del proyecto es extraer los datos geograficos y descripcion de un archivo KML y guardarlos en una base de datos para posterior mente migrar dicha info a otro formato. En este caso el formato final buscado es uno compatible con Open Street Maps para generar los archivos osc que son destinados a agregar iformacion en las base de datos del web site. 
 
-El desarrollo del proyecto esta apenas en la primera fase de experimentacion y testeos. Los scripts que podes encontra aca estan funcinando con los datos que tambien estan publicados en este repo. 
+El proyecto se encuentra en la fase de finalizacion del diseño e implementacion para testeo
 
-En primer lugar se puede encontrar una implementacion usando BeautifulSoup, en ese files se ejecutan todas las intrucciones para realizar la migracion pero no se creo la base de datos.
-
-En segundo lugar y ya un poco mas desarrollado podes encontrar varios archivos donde comenze con el uso de otroa libreria para parsear el KML, xml.etreeElementTree. Tambien se implemento la base de datos, por ahora solo en la extraccion de la info.
+La implementacion en BeautifulSoup no se actualizara mas. En cambio, el proyecto tomo otro camino, se desarrollo sobre xml.etreeElementTree y se decidio usar uns base de datos sqlite.
 
 Secuencia de ejecucion
 - crud.py para crear la base de datos desde cero
