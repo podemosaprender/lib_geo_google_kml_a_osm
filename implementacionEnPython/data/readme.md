@@ -12,7 +12,7 @@
 >osmChange is the file format used by osmosis (and osmconvert) to describe differences between two dumps of OSM data. However, it can also be used as the basis for anything that needs to represent changes. For example, bulk uploads/deletes/changes are also changesets and they can also be described using this format. We also offer Planet.osm/diffs downloads in this format.
 > En pocas palabras mas arriba dice que este tipo de archivos sirven para describir diferencias entre dos grupos de datos geograficos de OpenStreetMaps. En nuestro caso, si queremos subir algun agregado al mapa de OpenStreetMap, lo tenemos que poponer usando este tipo archivo OSM change. Ya que OpenStreetMaps es una gran base de datos deberemos proponer nunestro trabajo para que sea incluido en la base.
 
-### Los datos fueron extraidos Google Maps usando la opcion de exportar a KML.
+### Los datos fueron extraidos de Google Maps usando la opcion de exportar a KML a partir de un mapa generado por un usuario.
 
 > ESTE ARCHIVO FUE PARCIALMENTE MODIFICADO !!!
 
