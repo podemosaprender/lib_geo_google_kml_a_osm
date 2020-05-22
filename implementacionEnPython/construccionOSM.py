@@ -13,9 +13,8 @@ cur = conn.cursor()
 kmlDataTableInfo = cur.execute("PRAGMA TABLE_INFO(kmlData)")
 kmlDataTableInfo = kmlDataTableInfo.fetchall()
 
-
+columns = list()
 if len(kmlDataTableInfo):
-    columns = list()
     for d in kmlDataTableInfo:
         columns.append((d[0], d[1]))
 else:
@@ -35,9 +34,7 @@ tipoCruce = {
 # Dato en el tag Data me va a decir en tabla inserto el valor
 
 tables = ["Linea", "Ramal", "Servicio", "Actualidad", "TipoObra"]
-# tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "servicio_id":"Servicio", "actualidad_id":"Actualidad", "obra_id":"TipoObra"}
-# Voy a usar solo algunas columnas
-tablesIdsDict = {"line_id":"Linea", "ramal_id":"Ramal", "actualidad_id":"Actualidad"}
+tablesIdsDict = {"line_id": "Linea", "ramal_id": "Ramal", "actualidad_id": "Actualidad"}
 kmlDataColumnsSelection = ['placeName', 'lat', 'lon', ]
 
 allData = list()
@@ -47,8 +44,10 @@ queryFinal = [0, 0, 0, 0, 0, 0]
 queryFinal[0] = 'SELECT'
 
 for c in columns:
-    if c[1] in tablesIdsDict: queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name AS {tablesIdsDict[c[1]]}')
-    if c[1] in kmlDataColumnsSelection: queryElementsAcumulator.append(f'kmlData.{c[1]}')
+    if c[1] in tablesIdsDict:
+        queryElementsAcumulator.append(f'{tablesIdsDict[c[1]]}.name AS {tablesIdsDict[c[1]]}')
+    if c[1] in kmlDataColumnsSelection:
+        queryElementsAcumulator.append(f'kmlData.{c[1]}')
 
 queryVar = ' , '.join([x for x in queryElementsAcumulator])
 print(f'queryElementsAcumulator, primera parte \n{queryVar}')
@@ -58,7 +57,8 @@ queryFinal[1] = f'{queryVar}'
 queryFinal[2] = 'FROM kmlData'
 
 for c in columns:
-    if c[1] in tablesIdsDict: queryElementsAcumulator.append(f'JOIN {tablesIdsDict[c[1]]}')
+    if c[1] in tablesIdsDict:
+        queryElementsAcumulator.append(f'JOIN {tablesIdsDict[c[1]]}')
 
 # Entre los JOINS de la query Sql no van comas, la concatenacion en el join (python), es por espacio en blanco
 queryVar = ' '.join([x for x in queryElementsAcumulator])
@@ -69,7 +69,8 @@ queryFinal[3] = f'{queryVar}'
 queryFinal[4] = 'ON'
 
 for c in columns:
-    if c[1] in tablesIdsDict: queryElementsAcumulator.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
+    if c[1] in tablesIdsDict:
+        queryElementsAcumulator.append(f'kmlData.{c[1]} = {tablesIdsDict[c[1]]}.id')
 
 # Se agrega el keyWord AND como separador en el join
 queryVar = ' AND '.join([x for x in queryElementsAcumulator])
@@ -95,7 +96,7 @@ for row in results:
     extendedData = list()
     tipoCruceActual = row[5]
     if not (tipoCruceActual in list(tipoCruce.keys())):
-        tipoCruceActual= "Paso a nivel"
+        tipoCruceActual = "Paso a nivel"
         # Agrego este tag para hacer seguimientos de posibles errores o inconsistencia en los datos
         extendedData.append(f'<tag k="valorPorDefault" v="yes"/>')
     if len(list(tipoCruce[tipoCruceActual].keys())) > 1:
@@ -118,7 +119,8 @@ for row in results:
 
 # ----> OSM out
 with open("data/migrationFromDb.txt", "w") as osmFile:
-    osmFile.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<osmChange version="0.6" generator="CGImap 0.8.1 (9148 thorn-01.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">\n')
+    osmFile.write(
+        f'<?xml version="1.0" encoding="UTF-8"?>\n<osmChange version="0.6" generator="CGImap 0.8.1 (9148 thorn-01.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">\n')
     for d in allData:
         osmFile.write(f'\t<create>\n\t\t{d["node"]}\n')
         for t in d["extendedData"]:
