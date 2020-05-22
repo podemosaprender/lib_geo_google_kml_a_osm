@@ -1,3 +1,5 @@
+### Aquí algunos detalles importantes de interes general y sobre nuestro trabajo
+
 #### Geo Data 
 - KML, OSM, GeoJson, Shapes, todos estos archivos son de tipo etiquetados y en el caso de GeoJson un objeto. Aunque varian en su forma todos tienen el mismo proposito o casi el mismo. Fueron creados para trabajar con datos que estan geograficamente referenciados, ya sea con puntos como por ejemplo el par (latitud, longitud), con poligonos contruidos a partir de las rectas surgidas de unir los puntos anteriores, lineas divisorias entre dos puntos, etc. En general estas caracteristicas estan acompañadas por sus meta datos, nombre, descripcion y angunos detalles mas especificos de cada punto, poligono o linea. Si es una linea pude ser una ruta y en su metadata encontraras el nombre, numero, si es nacional o provincial y quiza tambien el estado general del asfalto.
 
