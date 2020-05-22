@@ -1,31 +1,15 @@
+### Detalles sobre la base de datos
 
-Baso de datos creada con sqlite3
+Decidi usar una base de datos como punto de transcicion entre la extraccion de los datos del Kml y la creacion del Archivo OSM change. Las razones son las siguientes.
 
-Esquema:
+1) Separa el problema de migracion de datos en varias partes.
+2) Conservar una copia de todos los datos extraidos del KML en crudo.
+3) Facilitar el analisis de los datos extraidos.
+4) Permitir a futuro la migracion de datos a otras plataformas sin necesidad de extraer nuevamente informacion del KML.
+5) Agilizar la escritura del OSM change y poner a disposicion todos los datos extraidos pudiendo tomar solo los de interes.
 
-    CREATE TABLE kmlData (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        folder_id INTEGER,
-        placeName TEXT,
-        placeDescription TEXT,
-        line_id INTEGER,
-        ramal_id INTEGER,
-        servicio_id INTEGER,
-        actualidad_id INTEGER,
-        nomAlt TEXT,
-        obs TEXT,
-        prev2019 TEXT,
-        prev2023 TEXT,
-        obra_id INTEGER,
-        estado TEXT,
-        progresiva TEXT,
-        anoEstimadoDeObra TEXT,
-        ultimaActualizacion TEXT
-    );
-    CREATE TABLE Folder (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT UNIQUE);
-    CREATE TABLE Linea (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT UNIQUE);
-    CREATE TABLE Ramal (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT UNIQUE);
-    CREATE TABLE Servicio (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT UNIQUE);
-    CREATE TABLE Actualidad (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT UNIQUE);
-    CREATE TABLE TipoObra (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, name TEXT UNIQUE); 
-    ''')
+Implemente la API de sqlite3 ya que para la cantidad de datos y la modalidad de uso es la herramienta que tiene mejor performance. Implementacion rapida, interfaz simple, navegador grafico, rapides y documentacion.
+
+El esquema de la base se puede encontrar en esta misma carpeta.
+
+El encoding de los datos es un tema pendiente.
