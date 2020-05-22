@@ -6,3 +6,5 @@
 
 1) Los textos anidados en la eltiqueta <data name=""><values></values></data> que empiezan con numero, fueron cambiados a prev..n°
 2) Los datos que fueron incluidos en el mapa no presentan un patron de caracteristicas o atributos. Esto quieres decir que no todos tiene los mismos atributos, por lo tanto, para evitar errores y simplificar el parseo del archivo, normalice los atributos dandole la misma forma a todos. Para el caso donde los atributos necesarios no estaban presentes, se los agrego y se seteo su valor a NONE.
+
+>KML (del acrónimo en inglés Keyhole Markup Language) es un lenguaje de marcado basado en XML para representar datos geográficos en tres dimensiones. Fue desarrollado para ser manejado con Keyhole LT, precursor de Google Earth (Google adquirió Keyhole LT en octubre de 2004 tras lanzar su versión LT 2). Su gramática contiene muchas similitudes con la de GML. 
