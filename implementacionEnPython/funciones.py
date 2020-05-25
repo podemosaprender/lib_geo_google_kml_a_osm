@@ -21,7 +21,7 @@ def camelTiping(word):
     word = word.strip()
     if len(word.split()):
         compWord = word.split()
-        newCompWord = compWord[0]
+        newCompWord = [compWord[0]]
         for w in compWord[1:]:
             w = w.capitalize()
             newCompWord.append(w)
