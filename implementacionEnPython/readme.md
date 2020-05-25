@@ -24,6 +24,8 @@ Los registros se insertan en la base de datos uno por uno inmediatamente despues
 ### crud.py
 Este archivo contiene el esquema para crear la base de datos
 
+### Se realizaron cambios en las funciones y esta seccion quedo desactualizada por ahora
+
 ### funciones.py
 En este archivo se encuentran dos funciones.
 
