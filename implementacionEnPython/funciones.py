@@ -6,7 +6,7 @@
 def upFLetter(word):
     """
     :param word: input type string
-    :return: output type strin
+    :return: output type string
     """
     wL = [x for x in word]
     wL[0] = wL[0].upper()
@@ -16,7 +16,7 @@ def upFLetter(word):
 def camelTiping(word):
     """
     :param word: input type string
-    :return: output type strin
+    :return: output type string
     """
     word = word.strip()
     if len(word.split()):
@@ -56,7 +56,7 @@ def reverseDict(d=None, retRep=False):
     :param d: input type dict()
     :param retRep: input type Bool : este parametro indica si se quieren guardar
     los valores repetidos del dic transformado
-    :return:
+    :return: la funcion devuelve un diccionario y una lista de tuplas en caso que retRep = True
     """
     if not d:
         return False
